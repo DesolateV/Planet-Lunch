@@ -17,7 +17,7 @@ public class CameraFollow : MonoBehaviour
     private Transform target;
     void Start()
     {
-        target = GameObject.Find("Player").transform;
+        target = GameObject.Find("Soldier").transform;
     }
 
     // Update is called once per frame
@@ -26,3 +26,4 @@ public class CameraFollow : MonoBehaviour
         transform.position = new Vector3(Mathf.Clamp(target.position.x, xMin, xMax), Mathf.Clamp(target.position.y, yMin, yMax), transform.position.z);
     }
 }
+

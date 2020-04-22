@@ -15,8 +15,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Level
+  - BG
   - 
   - 
   - 
@@ -45,6 +45,15 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 2611192029
+    locked: 0
+  - name: Platforms
+    uniqueID: 4260037979
+    locked: 0
+  - name: Civilians
+    uniqueID: 392254045
+    locked: 0
+  - name: ScoreText
+    uniqueID: 2178595493
     locked: 0
   - name: Player
     uniqueID: 2504647547

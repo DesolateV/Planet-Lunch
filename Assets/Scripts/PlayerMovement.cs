@@ -5,15 +5,17 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rgbd;
+    private Animator anim;
     [SerializeField]
     private float maxSpeed;
+    public bool facingRight;
 
     [SerializeField]
     private Transform[] groundPoints;
     [SerializeField]
     private float groundRadius;
     [SerializeField]
-    private LayerMask whatIsGround;
+    //int whatIsGround;
     private bool isGrounded;
     private bool jump;
     [SerializeField]
@@ -21,33 +23,48 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        facingRight = true;
         rgbd = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
     void Update()
     {
-        PlayerInputs();
+        Jump();
     }
     void FixedUpdate()
     {
         float horizontal = Input.GetAxis("Horizontal");
-        playerMovement(horizontal);
+        Playermovement(horizontal);
         isGrounded = IsGrounded();
+        Flip(horizontal);
         ResetValues();
     }
-    private void playerMovement(float horizontal)
+    private void Playermovement(float horizontal)
     {
         if (isGrounded && jump)
         {
-            isGrounded = false;
+            Debug.Log("Jumping");
             rgbd.AddForce(new Vector2(0, jumpForce));
+            isGrounded = false;
         }
         rgbd.velocity = new Vector2(horizontal * maxSpeed, rgbd.velocity.y);
     }
-    private void PlayerInputs()
+    private void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetAxisRaw("Jump") > 0)
         {
+            Debug.Log("Space");
             jump = true;
+        }
+    }
+    private void Flip(float horizontal)
+    {
+        if (horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
+        {
+            facingRight = !facingRight;
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
         }
     }
     private void ResetValues()
@@ -60,7 +77,7 @@ public class PlayerMovement : MonoBehaviour
         {
             foreach (Transform point in groundPoints)
             {
-                Collider2D[] colliders = Physics2D.OverlapCircleAll(point.position, groundRadius, whatIsGround);
+                Collider2D[] colliders = Physics2D.OverlapCircleAll(point.position, groundRadius);// whatIsGround
 
                 for (int i = 0; i < colliders.Length; i++)
                 {
@@ -71,6 +88,7 @@ public class PlayerMovement : MonoBehaviour
                 }
             }
         }
+        Debug.Log("IsGrounded");
         return false;
     }
 }

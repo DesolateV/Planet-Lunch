@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class Eating : MonoBehaviour
 {
-    private void OnTriggerEnter2D(Collider2D other)
+    public GameManager gm;
+    public void OnTriggerStay2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Food" && Input.GetKeyDown(KeyCode.E))
+        if ((other.gameObject.tag == "Food") && (Input.GetAxisRaw("Eat") > 0))
         {
+            gm.subtractDNAValue();
+            //Debug.Log("Eaten");
             Destroy(other.gameObject);
         }
     }
