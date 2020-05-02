@@ -6,18 +6,25 @@ public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rgbd;
     private Animator anim;
+    float a_Hor;
+
     [SerializeField]
     private float maxSpeed;
+
     public bool facingRight;
 
     [SerializeField]
     private Transform[] groundPoints;
+
     [SerializeField]
     private float groundRadius;
+
     [SerializeField]
     //int whatIsGround;
     private bool isGrounded;
+
     private bool jump;
+
     [SerializeField]
     private float jumpForce;
 
@@ -48,6 +55,8 @@ public class PlayerMovement : MonoBehaviour
             isGrounded = false;
         }
         rgbd.velocity = new Vector2(horizontal * maxSpeed, rgbd.velocity.y);
+        a_Hor = rgbd.velocity.x * maxSpeed;
+        anim.SetFloat("Speed", a_Hor);
     }
     private void Jump()
     {
